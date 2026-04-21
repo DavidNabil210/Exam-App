@@ -7,6 +7,9 @@ import { Eye, EyeOff } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import type { LoginRequest } from "@/lib/types/auth"
+import { loginUser } from "@/lib/api/auth/auth.api"
+import { loginAction } from "@/actions/auth.action"
 
 export default function LoginPage() {
   const router = useRouter()
@@ -14,9 +17,28 @@ export default function LoginPage() {
   const [errors, setErrors] = useState<{ username?: string; password?: string }>({})
   const [loading, setLoading] = useState(false)
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    // Logic is ignored for design focus
+    setErrors({})
+    setLoading(true)
+
+    const formData = new FormData(e.currentTarget)
+    const data: LoginRequest = {
+      username: formData.get("username") as string,
+      password: formData.get("password") as string,
+    }
+
+    try {
+      await loginAction(data) 
+      router.push("/dashboard") 
+    } catch (err: any) {
+      // simple error handling
+      if (err.message.includes("username")) setErrors({ username: err.message })
+      else if (err.message.includes("password")) setErrors({ password: err.message })
+      else setErrors({ password: err.message })
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (

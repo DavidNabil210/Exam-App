@@ -16,7 +16,7 @@ export function DashboardSidebar() {
   const pathname = usePathname()
 
   return (
-    <aside className="flex w-64 flex-col bg-blue-50 text-[oklch(0.92_0.01_250)]">
+    <aside className="flex w-64 flex-col bg-blue-50 text-[oklch(0.92_0.01_250)] ">
       <div className="p-10">
         
         {/* <h1 className="text-2xl font-bold tracking-[0.2em] mt-1 text-[oklch(0.95_0.01_250)]">

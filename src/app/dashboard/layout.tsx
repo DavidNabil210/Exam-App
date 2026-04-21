@@ -21,7 +21,7 @@ export default async function DashboardLayout({ children, admin, user }: Dashboa
 
   return (
      <SidebarProvider>
-      <div className='grid grid-cols-[30rem_1fr] min-h-screen max-h-full'>
+      <div className='flex min-h-screen max-h-full'>
 
         <DashboardSidebar />
 

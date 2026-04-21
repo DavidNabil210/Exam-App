@@ -26,3 +26,7 @@ export interface ConfirmEmailVerificationResponse {
   status: boolean
   message: string
 }
+export interface LoginRequest {
+  username: string
+  password: string
+}

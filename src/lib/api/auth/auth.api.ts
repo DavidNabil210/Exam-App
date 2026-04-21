@@ -2,6 +2,7 @@ import {
   RegisterRequest,
   SendEmailVerificationRequest,
   ConfirmEmailVerificationRequest,
+  LoginRequest
 } from "@/lib/types/auth"
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL
@@ -49,6 +50,22 @@ export async function confirmEmailVerification(data: ConfirmEmailVerificationReq
 
   if (!res.ok) {
     throw new Error(result.message || "Verification failed")
+  }
+
+  return result
+}
+export async function loginUser(data: LoginRequest) {
+  const res = await fetch(`${BASE_URL}/api/auth/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+    
+  })
+
+  const result = await res.json()
+
+  if (!res.ok) {
+    throw new Error(result.message || "Login failed")
   }
 
   return result
