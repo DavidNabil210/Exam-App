@@ -4,11 +4,10 @@ import { NextRequest, NextResponse } from "next/server";
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export async function GET(request: NextRequest) {
-   console.log("=== DIPLOMAS ROUTE HIT ===");
+  
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
- console.log("all cookies:", cookieStore.getAll()); // 👈 moved up
-  console.log("token:", token); // 👈 moved up
+
   if (!token) {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }

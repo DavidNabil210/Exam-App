@@ -1,26 +1,29 @@
-// app/(user)/layout.tsx
-import { DashboardSidebar } from "@/components/dashboard-sidebar";
-import { SidebarProvider } from "@/components/ui/sidebar";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import jwt from "jsonwebtoken";
+import { DashboardSidebar } from "@/components/dashboard-sidebar";
 
-export default async function UserLayout({ children }: { children: React.ReactNode }) {
+export default async function UserLayout({ children }: any) {
   const cookieStore = await cookies();
-  const allCookies = cookieStore.getAll();
-  const role = cookieStore.get("role")?.value;
+  const token = cookieStore.get("token")?.value;
 
-  console.log("=== USER LAYOUT ===");
-  console.log("all cookies:", allCookies);
-  console.log("role value:", role);
+  if (!token) redirect("/login");
 
-//   if (role !== "user") redirect("/dashboard");
+  const decoded = jwt.decode(token) as any;
 
-  return (
-    <SidebarProvider>
-      <div className="flex min-h-screen max-h-full">
-        <DashboardSidebar />
-        {children}
-      </div>
-    </SidebarProvider>
-  );
+  const role = decoded?.role?.toLowerCase();
+
+  if (role !== "user") redirect("/dashboard");
+
+  return <>
+      <div className='flex min-h-screen max-h-full'>
+  
+          <DashboardSidebar />
+  
+          {children}
+  
+        
+  
+        </div>
+  </>;
 }

@@ -4,8 +4,7 @@ import { cookies } from "next/headers";
 async function getExams(diplomaId: string) {
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
- console.log("=== DIPLOMA ID ===", diplomaId);
-//   console.log("=== DIPLOMA ID LENGTH ===", diplomaId.length);
+
   const url = `${process.env.NEXT_PUBLIC_API_URL}/api/exams?page=1&limit=10&diplomaId=${diplomaId}`;
 
   console.log("FETCH URL:", url);

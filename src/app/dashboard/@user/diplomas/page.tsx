@@ -43,7 +43,7 @@ console.log("BASE_URL:", BASE_URL);
             <Link
             
               key={d.id}
-                href={`/exams/${d.id}`}
+                href={`/dashboard/diplomas/${d.id}/exams`}
               className="relative block rounded-xl overflow-hidden cursor-pointer group h-56"
             >
               {/* Background image */}

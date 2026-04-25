@@ -1,10 +1,19 @@
 "use client";
 
-import { fetchExams } from "@/lib/api/exams/exams.api";
+// import { fetchExams } from "@/lib/api/exams/exams.api";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import Link from "next/link";
 import { useMemo } from "react";
 
+ async function fetchExams(diplomaId: string, page: number) {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/exams?diplomaId=${diplomaId}&page=${page}&limit=10`
+  );
 
+  if (!res.ok) throw new Error("error");
+
+  return res.json() as Promise<ExamsResponse>;
+}
 
 
 
@@ -44,10 +53,10 @@ export default function ExamsList({
   return (
     <div className="space-y-4">
       {exams.map((exam) => (
-        <div key={exam.id} className="border p-4 rounded">
+        <Link href={`/dashboard/diplomas/${diplomaId}/exams/${exam.id}`} key={exam.id} className="border p-4 rounded">
           <h2>{exam.title}</h2>
           <p>{exam.description}</p>
-        </div>
+        </Link>
       ))}
 
       {hasNextPage && (

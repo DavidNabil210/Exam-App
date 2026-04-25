@@ -32,12 +32,3 @@ export async function getExams(diplomaId: string) {
 
   return data;
 }
-export async function fetchExams(diplomaId: string, page: number) {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/exams?diplomaId=${diplomaId}&page=${page}&limit=10`
-  );
-
-  if (!res.ok) throw new Error("error");
-
-  return res.json() as Promise<ExamsResponse>;
-}
