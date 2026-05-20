@@ -13,7 +13,7 @@ interface Props {
 }
 
 export default async function QuestionsPage({ params }: Props) {
-  const { id, examId } = await params; // ← must await in Next.js 15
+  const { id, examId } = await params; 
 
   let exam: Exam | null = null;
   let questions: Question[] = [];

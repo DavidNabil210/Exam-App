@@ -5,8 +5,8 @@ export function AuthSidebar() {
     <div className="hidden lg:flex lg:w-[480px] flex-col  text-sidebar-foreground p-10">
       <div>
         <div className="flex items-center gap-2 mb-12">
-          <BookOpen className="size-5 text-[#155dfc]" />
-          <span className="text-md font-medium text-[#155dfc]">
+          <BookOpen className="size-5 text-blue-600" />
+          <span className="text-md font-medium text-blue-600">
             Exam App
           </span>
         </div>

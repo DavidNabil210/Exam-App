@@ -8,7 +8,7 @@ import Image from "next/image"
 import elevate from "../app/assets/elevate.png"
 
 const navItems = [
-  { href: "/dashboard", label: "Diplomas", icon: GraduationCap },
+  { href: "/dashboard/diplomas", label: "Diplomas", icon: GraduationCap },
   { href: "/dashboard/account", label: "Account Settings", icon: Settings },
 ]
 
@@ -19,10 +19,8 @@ export function DashboardSidebar() {
     <aside className="flex w-64 flex-col bg-blue-50 text-[oklch(0.92_0.01_250)] ">
       <div className="p-10">
         
-        {/* <h1 className="text-2xl font-bold tracking-[0.2em] mt-1 text-[oklch(0.95_0.01_250)]">
-          ELEVATE
-        </h1> */}
-        <Image src={elevate} alt="logo" width={192} height={37} className="bg-gray-900"/>
+     
+        <Image src={elevate} alt="logo" width={192} height={37} className="p-1 bg-blue-500 text-gray-500"/>
         <Link href="/dashboard" className="flex items-center gap-2">
           <FolderCode className="size-5 text-blue-500" />
           <span className="text-xs text-blue-500">Exam App</span>
@@ -46,7 +44,7 @@ export function DashboardSidebar() {
                 "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
                 isActive
                   ? "bg-blue-100 text-blue-500"
-                  : "text-gray-500 hover:bg-blue-100 hover:text-blue-500"
+                  : "text-blue-500 hover:bg-blue-100 hover:text-blue-500"
               )}
             >
               <item.icon className="size-4" />

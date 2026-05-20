@@ -26,3 +26,26 @@ console.log("DIPLOMAS:", JSON.stringify(data?.payload?.data?.map((d: any) => ({ 
 
   return NextResponse.json(data);
 }
+export async function POST(request: NextRequest) {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("token")?.value;
+
+  if (!token) {
+    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+  }
+
+  const body = await request.json();
+
+  const res = await fetch(`${BASE_URL}/api/diplomas`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  });
+
+  const data = await res.json();
+console.log("----------------CREATE RESPONSE-------------:", data);
+  return NextResponse.json(data);
+}

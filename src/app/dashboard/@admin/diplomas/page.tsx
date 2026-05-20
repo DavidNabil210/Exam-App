@@ -6,6 +6,13 @@ import { useRouter } from "next/navigation";
 import { Plus, MoreHorizontal } from "lucide-react";
 import { getDiplomas } from "@/lib/api/admin/admin-diplomas.api";
 import { Diploma } from "@/lib/types/diplomas";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
 
 export default function AdminDiplomasPage() {
   const router = useRouter();
@@ -29,7 +36,7 @@ export default function AdminDiplomasPage() {
     initialPageParam: 1,
   });
 
-  // ── Infinite scroll ────────────────────────────────────────
+  // infinite scroll
   useEffect(() => {
     const el = bottomRef.current;
     if (!el) return;
@@ -49,20 +56,61 @@ export default function AdminDiplomasPage() {
 
   const diplomas = data?.pages.flatMap((p) => p.payload.data) ?? [];
   const total = data?.pages[0]?.payload.metadata.total ?? 0;
+  function ActionDropdown({ id }: { id: string }) {
+  const router = useRouter();
+
+  const handleDelete = () => {
+    console.log("Delete", id);
+  };
+
+  const handleView = () => {
+    router.push(`/dashboard/diplomas/${id}`);
+  };
+
+  const handleUpdate = () => {
+    router.push(`/dashboard/diplomas/${id}/edit`);
+  };
 
   return (
-    <div className="min-h-screen bg-gray-950 p-6 text-white">
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <button className="flex h-7 w-7 items-center justify-center rounded border border-gray-700 bg-gray-800 text-gray-400 hover:text-white">
+          <MoreHorizontal size={15} />
+        </button>
+      </DropdownMenuTrigger>
 
-      {/* ── Header ────────────────────────────────────────── */}
+      <DropdownMenuContent align="end" className="w-32">
+        <DropdownMenuItem onClick={handleView}>
+          View
+        </DropdownMenuItem>
+
+        <DropdownMenuItem onClick={handleUpdate}>
+          Update
+        </DropdownMenuItem>
+
+        <DropdownMenuItem
+          onClick={handleDelete}
+          className="text-red-500 focus:text-red-500"
+        >
+          Delete
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
+  return (
+    <div className="min-h-screen  p-6 text-white">
+
+     {/* header */}
       <div className="mb-5 flex items-center justify-between">
         <div>
-          <p className="mb-1 text-xs text-gray-400">Diplomas</p>
-          <p className="text-sm text-gray-300">
+          <p className="mb-1 text-xs text-gray-800">Diplomas</p>
+          <p className="text-sm text-gray-800">
             {isLoading ? "—" : `${diplomas.length} of ${total}`}
           </p>
         </div>
         <button
-          onClick={() => router.push("/dashboard/admin/diplomas/new")}
+          onClick={() => router.push("/dashboard/diplomas/new")}
           className="flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-green-700"
         >
           <Plus size={16} />
@@ -70,24 +118,24 @@ export default function AdminDiplomasPage() {
         </button>
       </div>
 
-      {/* ── Table ─────────────────────────────────────────── */}
-      <div className="overflow-hidden rounded-xl border border-gray-800 bg-gray-900">
+     {/* table */}
+      <div className="overflow-hidden rounded-xl border border-white-600 bg-gray-900">
 
-        {/* Head */}
-        <div className="grid grid-cols-[56px_220px_1fr_40px] items-center gap-4 border-b border-gray-800 bg-gray-800 px-4 py-3">
-          <span className="text-xs font-semibold uppercase tracking-wide text-gray-400">
+       {/* head */}
+        <div className="grid grid-cols-[56px_220px_1fr_40px] items-center gap-4 border-b border-blue-600 bg-blue-600 px-4 py-3">
+          <span className="text-xs font-semibold uppercase tracking-wide text-white-400">
             Image
           </span>
-          <span className="text-xs font-semibold uppercase tracking-wide text-gray-400">
+          <span className="text-xs font-semibold uppercase tracking-wide text-white-400">
             Title
           </span>
-          <span className="text-xs font-semibold uppercase tracking-wide text-gray-400">
+          <span className="text-xs font-semibold uppercase tracking-wide text-white-400">
             Description
           </span>
           <span />
         </div>
 
-        {/* Loading */}
+        {/* loading */}
         {isLoading && (
           <div className="divide-y divide-gray-800">
             {Array.from({ length: 8 }).map((_, i) => (
@@ -107,7 +155,7 @@ export default function AdminDiplomasPage() {
           </div>
         )}
 
-        {/* Error */}
+       {/* error  */}
         {isError && (
           <div className="flex flex-col items-center justify-center gap-3 py-16">
             <p className="text-sm text-red-400">Failed to load diplomas.</p>
@@ -120,20 +168,20 @@ export default function AdminDiplomasPage() {
           </div>
         )}
 
-        {/* Empty */}
+       {/* empty */}
         {!isLoading && !isError && diplomas.length === 0 && (
           <div className="flex items-center justify-center py-16">
             <p className="text-sm text-gray-400">No diplomas found.</p>
           </div>
         )}
 
-        {/* Rows */}
+       {/* Rows */}
         {!isLoading && !isError && diplomas.length > 0 && (
-          <div className="divide-y divide-gray-800">
+          <div className="divide-y divide-blue-600">
             {diplomas.map((diploma: Diploma) => (
               <div
                 key={diploma.id}
-                className="grid grid-cols-[56px_220px_1fr_40px] items-center gap-4 px-4 py-3 transition-colors hover:bg-gray-800"
+                className="grid grid-cols-[56px_220px_1fr_40px] items-center gap-4 px-4 py-3 transition-colors hover:bg-blue-800 bg-gray-200 "
               >
                 {/* Image */}
                 {diploma.image ? (
@@ -148,8 +196,8 @@ export default function AdminDiplomasPage() {
                   </div>
                 )}
 
-                {/* Title */}
-                <p className="truncate text-sm font-medium text-white">
+              {/* title */}
+                <p className="truncate text-sm font-medium text-gray-400">
                   {diploma.title}
                 </p>
 
@@ -159,9 +207,7 @@ export default function AdminDiplomasPage() {
                 </p>
 
                 {/* Actions placeholder */}
-                <button className="flex h-7 w-7 items-center justify-center rounded border border-gray-700 bg-gray-800 text-gray-400 transition-colors hover:text-white">
-                  <MoreHorizontal size={15} />
-                </button>
+               <ActionDropdown id={diploma.id} />
               </div>
             ))}
           </div>

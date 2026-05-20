@@ -19,17 +19,15 @@ export default async function DashboardLayout({ children, admin, user }: Dashboa
 
 
 
-  return (
-     <SidebarProvider>
-      <div className='flex min-h-screen max-h-full'>
+return (
+  
+    <div className="flex min-h-screen">
+      <DashboardSidebar />
 
-        <DashboardSidebar />
-
-        {children}
-
+      <main className="flex-1 p-4">
         {role === 'admin' ? admin : user}
-
-      </div>
-    </SidebarProvider>
-  )
+      </main>
+    </div>
+ 
+);
 }
